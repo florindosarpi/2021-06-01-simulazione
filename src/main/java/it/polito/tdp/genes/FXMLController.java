@@ -7,7 +7,6 @@ package it.polito.tdp.genes;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import it.polito.tdp.genes.model.Genes;
 import it.polito.tdp.genes.model.Model;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -30,7 +29,7 @@ public class FXMLController {
     private Button btnCreaGrafo; // Value injected by FXMLLoader
 
     @FXML // fx:id="cmbGeni"
-    private ComboBox<?> cmbGeni; // Value injected by FXMLLoader
+    private ComboBox<String> cmbGeni; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnGeniAdiacenti"
     private Button btnGeniAdiacenti; // Value injected by FXMLLoader
@@ -46,18 +45,25 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
+    	txtResult.setText(this.model.creaGrafo());
     	
 
     }
 
     @FXML
     void doGeniAdiacenti(ActionEvent event) {
-
+    	String gene = cmbGeni.getValue();
+    	txtResult.appendText("\n " + "Geni adiacenti a: " + gene +"\n");
+    	for (String s : this.model.getAdiacenti(gene)) {
+    		txtResult.appendText(s);
+    	}
     	
     }
 
     @FXML
     void doSimula(ActionEvent event) {
+    	
+    	int ingegneri = Integer.parseInt(txtIng.getText());
 
     }
 
@@ -69,11 +75,12 @@ public class FXMLController {
         assert txtIng != null : "fx:id=\"txtIng\" was not injected: check your FXML file 'Scene.fxml'.";
         assert btnSimula != null : "fx:id=\"btnSimula\" was not injected: check your FXML file 'Scene.fxml'.";
         assert txtResult != null : "fx:id=\"txtResult\" was not injected: check your FXML file 'Scene.fxml'.";
-
+        
     }
     
     public void setModel(Model model) {
     	this.model = model;
+    	cmbGeni.getItems().addAll(model.getVerticiID());
     }
     
 }
